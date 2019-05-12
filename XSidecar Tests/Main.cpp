@@ -9,8 +9,10 @@ int main( )
 {
 	if ( LoadXSidecar( ) )
 	{
-		auto List = XSidecarOpenEmulatorList( );
-		auto ListCount = XSidecarGetListItemCount( List );
+		auto List = XSidecarOpenEmulatorList( ); // List is actually a structure
+		auto ListCount = XSidecarGetListItemCount( List ); // *(DWORD*)(List + 0x4)
+
+		printf( "List: %08X\n", List );
 
 		printf( "List Count: %i\n", ListCount );
 
@@ -26,12 +28,15 @@ int main( )
 				printf( "Name: %ws\n", ConsoleNameBuffer );
 			}
 
+			memset( ConsoleNameBuffer, 0, sizeof( ConsoleNameBuffer ) );
+
 			if ( XSidecarGetConsoleSerialNumber( Sidecar, SerialNumber ) == 0 )
 			{
 				printf( "Serial Number: %02X%02X%02X%02X%02X%02X \n", SerialNumber[ 1 ], SerialNumber[ 2 ], SerialNumber[ 3 ], SerialNumber[ 4 ], SerialNumber[ 5 ], SerialNumber[ 6 ] );
 			}
 
-			XSidecarEmulatorSetPowerState( Sidecar, TRUE );
+			XSidecarEmulatorSetPowerState( Sidecar, FALSE );
+
 		}
 
 		XSidecarCloseList( List );

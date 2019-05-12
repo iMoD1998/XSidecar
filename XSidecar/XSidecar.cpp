@@ -6,6 +6,7 @@ HMODULE XSidecar = NULL;
 XSidecarOpenEmulatorList_t XSidecarOpenEmulatorList = NULL;
 XSidecarOpenListItem_t XSidecarOpenListItem = NULL;
 XSidecarGetListItemCount_t XSidecarGetListItemCount = NULL;
+XSidecarGetListItemName_t XSidecarGetListItemName = NULL;
 XSidecarCloseList_t XSidecarCloseList = NULL;
 
 XSidecarGetName_t XSidecarGetName = NULL;
@@ -31,6 +32,7 @@ bool XSidecarGetExports( HMODULE XSidecar )
 	XSidecarOpenEmulatorList = (XSidecarOpenEmulatorList_t)GetProcAddress( XSidecar, "XSidecarOpenEmulatorList" );
 	XSidecarOpenListItem = (XSidecarOpenListItem_t)GetProcAddress( XSidecar, "XSidecarOpenListItem" );
 	XSidecarGetListItemCount = (XSidecarGetListItemCount_t)GetProcAddress( XSidecar, "XSidecarGetListItemCount" );
+	XSidecarGetListItemName = (XSidecarGetListItemName_t)GetProcAddress( XSidecar, "XSidecarGetListItemName" );
 	XSidecarCloseList = (XSidecarCloseList_t)GetProcAddress( XSidecar, "XSidecarCloseList" );
 
 	XSidecarGetName = (XSidecarGetName_t)GetProcAddress( XSidecar, "XSidecarGetName" );
