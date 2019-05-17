@@ -2,6 +2,16 @@
 
 #include <Windows.h>
 
+typedef struct _VERSION_INFOMATION
+{
+	WORD FWMajor; // FW = Firmware???
+	WORD FWMinor;
+	BYTE FPGAMajor;
+	BYTE FPGAMinor;
+	BYTE BoardMajor;
+	BYTE BoardMinor;
+} VERSION_INFOMATION, *PVERSION_INFOMATION;
+
 /*List*/
 typedef HANDLE	( WINAPI * XSidecarOpenEmulatorList_t )					( );
 typedef HANDLE	( WINAPI * XSidecarOpenListItem_t )						( HANDLE List, int ListIndex );
@@ -12,8 +22,7 @@ typedef void	( WINAPI * XSidecarCloseList_t )						( HANDLE List );
 
 typedef HRESULT	( WINAPI * XSidecarGetName_t )							( HANDLE Handle, LPWSTR Buffer, int Length, int Something );
 typedef HRESULT	( WINAPI * XSidecarGetConsoleSerialNumber_t )			( HANDLE Handle, BYTE* Buffer );
-typedef HRESULT	( WINAPI * XSidecarGetVersionInformation_t )			( HANDLE Handle, BYTE* Buffer );
-typedef HRESULT	( WINAPI * XSidecarGetVersionInformation_t )			( HANDLE Handle, BYTE* Buffer );
+typedef HRESULT	( WINAPI * XSidecarGetVersionInformation_t )			( HANDLE Handle, PVERSION_INFOMATION Info );
 
 /*Emulator*/
 
@@ -30,6 +39,13 @@ typedef HRESULT	( WINAPI * XSidecarEmulatorSpiBegin_t )					( HANDLE Handle );
 typedef HRESULT	( WINAPI * XSidecarEmulatorSpiEnd_t )					( HANDLE Handle );
 typedef HRESULT	( WINAPI * XSidecarEmulatorSpiRead_t )					( HANDLE Handle, BYTE* Buffer, SIZE_T Length, DWORD* BytesRead );
 typedef HRESULT	( WINAPI * XSidecarEmulatorSpiWrite_t )					( HANDLE Handle, BYTE* Buffer, SIZE_T Length );
+
+typedef HRESULT	( WINAPI* XSidecarReadFpgaRegister_t )					( HANDLE Handle, WORD Register, DWORD* Out );
+typedef HRESULT	( WINAPI* XSidecarWriteFpgaRegister_t )					( HANDLE Handle, WORD Register, BYTE In );
+//XSidecarUpdateFpgaRegister
+//XSidecarEmulatorFPGAUpdateBegin
+//XSidecarEmulatorFPGAUpdateWriteBank
+//XSidecarEmulatorFPGAUpdateComplete
 
 extern XSidecarOpenEmulatorList_t XSidecarOpenEmulatorList;
 extern XSidecarOpenListItem_t XSidecarOpenListItem;
@@ -54,6 +70,9 @@ extern XSidecarEmulatorSpiBegin_t XSidecarEmulatorSpiBegin;
 extern XSidecarEmulatorSpiEnd_t XSidecarEmulatorSpiEnd;
 extern XSidecarEmulatorSpiRead_t XSidecarEmulatorSpiRead;
 extern XSidecarEmulatorSpiWrite_t XSidecarEmulatorSpiWrite;
+
+extern XSidecarReadFpgaRegister_t XSidecarReadFpgaRegister;
+extern XSidecarWriteFpgaRegister_t XSidecarWriteFpgaRegister;
 
 bool LoadXSidecar( );
 

@@ -27,6 +27,9 @@ XSidecarEmulatorSpiEnd_t XSidecarEmulatorSpiEnd = NULL;
 XSidecarEmulatorSpiRead_t XSidecarEmulatorSpiRead = NULL;
 XSidecarEmulatorSpiWrite_t XSidecarEmulatorSpiWrite = NULL;
 
+XSidecarReadFpgaRegister_t XSidecarReadFpgaRegister = NULL;
+XSidecarWriteFpgaRegister_t XSidecarWriteFpgaRegister = NULL;
+
 bool XSidecarGetExports( HMODULE XSidecar )
 {
 	XSidecarOpenEmulatorList = (XSidecarOpenEmulatorList_t)GetProcAddress( XSidecar, "XSidecarOpenEmulatorList" );
@@ -52,6 +55,9 @@ bool XSidecarGetExports( HMODULE XSidecar )
 	XSidecarEmulatorSpiEnd = (XSidecarEmulatorSpiEnd_t)GetProcAddress( XSidecar, "XSidecarEmulatorSpiEnd" );
 	XSidecarEmulatorSpiRead = (XSidecarEmulatorSpiRead_t)GetProcAddress( XSidecar, "XSidecarEmulatorSpiRead" );
 	XSidecarEmulatorSpiWrite = (XSidecarEmulatorSpiWrite_t)GetProcAddress( XSidecar, "XSidecarEmulatorSpiWrite" );
+
+	XSidecarReadFpgaRegister = (XSidecarReadFpgaRegister_t)GetProcAddress( XSidecar, "XSidecarReadFpgaRegister" );
+	XSidecarWriteFpgaRegister = (XSidecarWriteFpgaRegister_t)GetProcAddress( XSidecar, "XSidecarWriteFpgaRegister" );
 
 	return true;
 }
