@@ -5,6 +5,65 @@
 
 typedef unsigned long long QWORD;
 
+void DoOffAndOn( HANDLE Sidecar )
+{
+	XSidecarEmulatorSetPowerState( Sidecar, FALSE );
+
+	printf( "Powering Down...\n" );
+
+	BOOL IsOn = FALSE;
+
+	do
+	{
+		printf( "." );
+		XSidecarEmulatorGetPowerState( Sidecar, &IsOn );
+		Sleep( 10 );
+	}
+	while ( IsOn );
+
+	printf( "\nPowered Down\n" );
+
+	Sleep( 1000 );
+
+	printf( "Powering Up" );
+
+	XSidecarEmulatorSetPowerState( Sidecar, TRUE );
+
+	do
+	{
+		printf( "." );
+		XSidecarEmulatorGetPowerState( Sidecar, &IsOn );
+		Sleep( 10 );
+	}
+	while ( !IsOn );
+
+	printf( "\nPowered Up\n" );
+}
+
+void DoPipeShit( HANDLE Sidecar )
+{
+	LPCWSTR PipeName = L"\\\\.\\pipe\\yeet";
+
+	HANDLE Ayylmao = XSidecarEmulatorOpenKdPipe( Sidecar, PipeName );
+
+	//   NamedPipeClientStream pipeClientStream = new NamedPipeClientStream("yeet");
+
+
+	if ( !Ayylmao || Ayylmao == INVALID_HANDLE_VALUE )
+	{
+		printf( "Pipe machine broke\n" );
+		return;
+	}
+
+	while ( true )
+	{
+		DoOffAndOn( Sidecar );
+		Sleep( 10000 );
+	}
+
+	XSidecarEmulatorCloseKdPipe( Ayylmao );
+}
+
 int main( )
 {
 	if ( LoadXSidecar( ) )
@@ -42,8 +101,7 @@ int main( )
 				printf( "Version Information:\n    FW:    %d.%d\n    FPGA:  %x.%x\n    Board: %x.%x\n", Info.FWMajor, Info.FWMinor, Info.FPGAMajor, Info.FPGAMinor, Info.BoardMajor, Info.BoardMinor );
 			}
 
-			XSidecarEmulatorSetPowerState( Sidecar, FALSE );
-
+			DoPipeShit( Sidecar );
 		}
 
 		XSidecarCloseList( List );
